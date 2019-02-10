@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Angularjs Todo</title>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.6/angular.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    </head>
+    <body ng-app="TodoApp" ng-controller="todoCtrl">
+        <div class="container">
+                <h1>Angularjs Todo</h1>
+        
+                <form>
+                    <input type="text" class="form-control" placeholder="Enter a todo" name="newtodo" ng-model="newtodo">
+                    <br/>
+                    <input type="button" class="btn btn-primary" ng-click="addtodo(newtodo)" value="Add todo">
+                    <input type="button" class="btn btn-danger" ng-click="removetodo()" value="Remove todo">
+                </form>
+
+                <hr/>
+                <p>
+                    <h3>List of Todos </h3>
+                </p>
+                
+                <div ng-repeat="todo in todos">
+                    <input type="checkbox" ng-model="todo.done"> 
+                    <span ng-bind="todo.list"></span>
+                </div>
+        
+        </div>
+        
+        <script>
+            var todoApp = angular.module('TodoApp',[]);
+            todoApp.controller('todoCtrl',function($scope){
+
+                // List all todos    
+                $scope.todos = [{
+                    list : "Learn Javascript" ,
+                    done : false   
+                }];
+
+                // To add todo
+                $scope.addtodo = function(data){
+                    if(data!= ''){
+                        $scope.todos.push({list:data,done:false});
+                        $scope.newtodo = '';
+                    }                    
+                }
+
+                // To remove todo
+                $scope.removetodo = function(){
+                    var oldTodos = $scope.todos;
+                    $scope.todos = [];
+                    angular.forEach(oldTodos,function(el){
+                        if(!el.done){
+                            $scope.todos.push(el);
+                        }
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
